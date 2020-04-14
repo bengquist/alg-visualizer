@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
 import { shuffle } from "../helpers";
 import useInterval from "../hooks/useInterval";
 import Bar from "./Bar";
@@ -10,7 +9,6 @@ type Props = {
 };
 
 function Graph({ barCount, isSorting }: Props) {
-  console.log(barCount);
   const barRefs = useRef<HTMLDivElement[]>([]);
   const graphRef = useRef<HTMLDivElement>(null);
   const [barWidth, setBarWidth] = useState(0);
@@ -63,11 +61,11 @@ function Graph({ barCount, isSorting }: Props) {
 
   console.log(barRefs);
 
-  return <Container ref={graphRef}>{renderBars()}</Container>;
+  return (
+    <div className="relative" ref={graphRef}>
+      {renderBars()}
+    </div>
+  );
 }
 
 export default Graph;
-
-const Container = styled.div`
-  position: relative;
-`;
