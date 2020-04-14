@@ -15,7 +15,8 @@ export default Bar;
 
 const Container = styled.div<{ place: number }>`
   position: absolute;
-  background: blue;
+  background: #47c539;
+  border-radius: 5px 5px 0 0;
   border: 1px solid white;
   bottom: 0;
 
