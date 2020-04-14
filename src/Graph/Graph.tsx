@@ -1,102 +1,38 @@
-import React, { useEffect, useRef, useState } from "react";
-import { shuffle } from "../helpers";
-import useInterval from "../hooks/useInterval";
-import Bar from "./Bar";
+import React, {
+  forwardRef,
+  RefObject,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import styled from "styled-components";
 
 type Props = {
-  barCount: number;
-  isSorting?: boolean;
+  bars: number[];
 };
 
-function Graph({ barCount, isSorting }: Props) {
-  const barRefs = useRef<HTMLDivElement[]>([]);
+function Graph({ bars }: Props, barRefs: RefObject<HTMLDivElement[]>) {
   const graphRef = useRef<HTMLDivElement>(null);
   const [barWidth, setBarWidth] = useState(0);
-  const [bars, setBars] = useState(
-    Array.from({ length: barCount * 10 }, (_, index) => ++index)
-  );
-  const [barRefsCopy, setBarRefsCopy] = useState<HTMLDivElement[]>(
-    barRefs.current
-  );
-
-  const [outerLoopIndex, setOuterLoopIndex] = useState(bars.length - 1);
-  const [innerLoopIndex, setInnerLoopIndex] = useState(0);
-
-  useEffect(() => {
-    setBars(Array.from({ length: barCount * 10 }, (_, index) => ++index));
-  }, [barCount]);
 
   useEffect(() => {
     if (graphRef.current) {
-      setBarWidth(graphRef.current?.clientWidth / (barCount * 10));
+      setBarWidth(graphRef.current?.clientWidth / bars.length);
     }
-  }, [barCount]);
-
-  useEffect(() => {
-    const shuffledBars = shuffle(bars);
-    setBars(shuffledBars);
-  }, []);
-
-  const nextSwap = (inner: number, outer: number, bars: HTMLDivElement[]) => {
-    let barsCopy = Array.from(bars);
-
-    if (!barsCopy[inner + 1] || inner > outer) {
-      const el1 = barsCopy[outer];
-      el1.style.background = "blue";
-
-      setOuterLoopIndex(outer - 1);
-      setInnerLoopIndex(0);
-
-      return;
-    }
-
-    const prevEl = inner > 0 && bars[inner - 1];
-    const el1 = bars[inner];
-    const el2 = bars[inner + 1];
-    const el1Value = Number(barsCopy[inner].innerText);
-    const el2Value = Number(barsCopy[inner + 1].innerText);
-
-    if (prevEl && inner - 1 < outer) prevEl.style.background = "#47c539";
-    el1.style.background = "orange";
-    el2.style.background = "orange";
-
-    setTimeout(() => {
-      if (el1Value > el2Value) {
-        const style1 = window.getComputedStyle(el1);
-        const style2 = window.getComputedStyle(el2);
-
-        const transform1 = style1.getPropertyValue("transform");
-        const transform2 = style2.getPropertyValue("transform");
-
-        [barsCopy[inner], barsCopy[inner + 1]] = [
-          barsCopy[inner + 1],
-          barsCopy[inner],
-        ];
-
-        el1.style.transform = transform2;
-        el2.style.transform = transform1;
-      }
-
-      setBarRefsCopy(barsCopy);
-      setInnerLoopIndex(inner + 1);
-    }, 700);
-  };
-
-  useInterval(
-    () => isSorting && nextSwap(innerLoopIndex, outerLoopIndex, barRefsCopy),
-    1400
-  );
+  }, [bars.length]);
 
   const renderBars = () => {
     return bars.map((val, index) => (
-      <Bar
+      <Container
         key={val}
-        val={val}
-        width={barWidth}
-        height={val * 25}
-        place={index}
-        ref={(ref: HTMLDivElement) => (barRefs.current[index] = ref)}
-      />
+        ref={(ref: HTMLDivElement) =>
+          barRefs.current && (barRefs.current[index] = ref)
+        }
+        style={{ width: barWidth, height: val * 25 }}
+        place={index * barWidth}
+      >
+        <div className="flex center justify-center text-white">{val}</div>
+      </Container>
     ));
   };
 
@@ -107,4 +43,16 @@ function Graph({ barCount, isSorting }: Props) {
   );
 }
 
-export default Graph;
+//@ts-ignore
+export default forwardRef(Graph);
+
+const Container = styled.div<{ place: number }>`
+  position: absolute;
+  background: #47c539;
+  border-radius: 5px 5px 0 0;
+  border: 1px solid white;
+  bottom: 0;
+
+  transition: 0.2s;
+  transform: matrix(1, 0, 0, 1, ${({ place }) => place}, 0);
+`;

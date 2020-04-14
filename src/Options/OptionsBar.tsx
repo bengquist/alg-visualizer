@@ -12,10 +12,11 @@ import React, { ChangeEvent } from "react";
 type Props = {
   onPlay: () => void;
   onCount: (e: ChangeEvent<HTMLInputElement>) => void;
+  onSpeed: (e: ChangeEvent<HTMLInputElement>) => void;
   isSorting?: boolean;
 };
 
-function OptionsBar({ onPlay, onCount, isSorting }: Props) {
+function OptionsBar({ onPlay, onCount, onSpeed, isSorting }: Props) {
   return (
     <div className="rounded overflow-hidden shadow-lg bg-gray-800 flex flex-row justify-between p-4 text-white">
       <select className="bg-gray-200 border border-gray-200 text-gray-700 px-3 focus:outline-none focus:bg-white focus:border-gray-500">
@@ -45,7 +46,7 @@ function OptionsBar({ onPlay, onCount, isSorting }: Props) {
       </div>
 
       <input type="range" defaultValue="1" min="1" max="5" onChange={onCount} />
-      <input type="range" min="1" max="10" />
+      <input type="range" defaultValue="1" min="1" max="5" onChange={onSpeed} />
     </div>
   );
 }
