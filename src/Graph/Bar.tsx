@@ -9,7 +9,9 @@ type Props = {
 
 function Bar({ width, height, place }: Props, ref: any) {
   return (
-    <Container ref={ref} style={{ width, height }} place={place * width} />
+    <Container ref={ref} style={{ width, height }} place={place * width}>
+      <div className="flex center justify-center text-white">{++place}</div>
+    </Container>
   );
 }
 
