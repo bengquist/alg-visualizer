@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { shuffle, swap } from "../helpers";
+import { shuffle } from "../helpers";
 import useInterval from "../hooks/useInterval";
 import Bar from "./Bar";
 
@@ -12,8 +12,7 @@ function Graph() {
   const [bars, setBars] = useState(
     Array.from({ length: barCount }, (_, index) => ++index)
   );
-  const [firstIndex, setFirstIndex] = useState(0);
-  const [secondIndex, setSecondIndex] = useState(0);
+  const barRefs = useRef([]);
 
   useEffect(() => {
     if (ref.current) {
@@ -27,25 +26,37 @@ function Graph() {
   }, []);
 
   const nextSwap = () => {
-    const barsCopy = Array.from(bars);
+    const el1 = barRefs.current[0];
+    const el2 = barRefs.current[1];
 
-    if (barsCopy[secondIndex] > barsCopy[secondIndex + 1]) {
-      swap(barsCopy, secondIndex, secondIndex + 1);
-    }
+    const style1 = window.getComputedStyle(el1);
+    const style2 = window.getComputedStyle(el2);
 
-    setSecondIndex(secondIndex + 1);
-    setBars(barsCopy);
+    const transform1 = style1.getPropertyValue("transform");
+    const transform2 = style2.getPropertyValue("transform");
+
+    //@ts-ignore
+    el1.style.transform = transform2;
+    //@ts-ignore
+    el2.style.transform = transform1;
   };
 
   useInterval(() => nextSwap(), 1000);
 
   const renderBars = () => {
     return bars.map((val, index) => (
-      <Bar key={val} width={barWidth} height={val * 5} place={index} />
+      <Bar
+        key={val}
+        width={barWidth}
+        height={val * 5}
+        place={index}
+        //@ts-ignore
+        ref={(ref) => (barRefs.current[index] = ref)}
+      />
     ));
   };
 
-  console.log(bars);
+  console.log(barRefs);
 
   return <Container ref={ref}>{renderBars()}</Container>;
 }

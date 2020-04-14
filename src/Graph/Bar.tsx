@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import styled from "styled-components";
 
 type Props = {
@@ -7,11 +7,13 @@ type Props = {
   place: number;
 };
 
-function Bar({ width, height, place }: Props) {
-  return <Container style={{ width, height }} place={place * width} />;
+function Bar({ width, height, place }: Props, ref: any) {
+  return (
+    <Container ref={ref} style={{ width, height }} place={place * width} />
+  );
 }
 
-export default Bar;
+export default forwardRef(Bar);
 
 const Container = styled.div<{ place: number }>`
   position: absolute;
