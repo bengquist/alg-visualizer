@@ -4,19 +4,23 @@ import { shuffle } from "../helpers";
 import useInterval from "../hooks/useInterval";
 import Bar from "./Bar";
 
+type Props = {
+  isSorting?: boolean;
+};
+
 const barCount = 20;
 
-function Graph() {
-  const ref = useRef<HTMLDivElement>(null);
+function Graph({ isSorting }: Props) {
+  const barRefs = useRef<HTMLDivElement[]>([]);
+  const graphRef = useRef<HTMLDivElement>(null);
   const [barWidth, setBarWidth] = useState(0);
   const [bars, setBars] = useState(
     Array.from({ length: barCount }, (_, index) => ++index)
   );
-  const barRefs = useRef([]);
 
   useEffect(() => {
-    if (ref.current) {
-      setBarWidth(ref.current?.clientWidth / barCount);
+    if (graphRef.current) {
+      setBarWidth(graphRef.current?.clientWidth / barCount);
     }
   }, []);
 
@@ -35,13 +39,11 @@ function Graph() {
     const transform1 = style1.getPropertyValue("transform");
     const transform2 = style2.getPropertyValue("transform");
 
-    //@ts-ignore
     el1.style.transform = transform2;
-    //@ts-ignore
     el2.style.transform = transform1;
   };
 
-  useInterval(() => nextSwap(), 1000);
+  useInterval(() => isSorting && nextSwap(), 1000);
 
   const renderBars = () => {
     return bars.map((val, index) => (
@@ -58,7 +60,7 @@ function Graph() {
 
   console.log(barRefs);
 
-  return <Container ref={ref}>{renderBars()}</Container>;
+  return <Container ref={graphRef}>{renderBars()}</Container>;
 }
 
 export default Graph;

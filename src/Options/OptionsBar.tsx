@@ -1,6 +1,7 @@
 import {
   faBackward,
   faForward,
+  faPause,
   faPlay,
   faUndo,
   faVolumeMute,
@@ -8,10 +9,15 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
-function OptionsBar() {
+type Props = {
+  onPlay: () => void;
+  isSorting?: boolean;
+};
+
+function OptionsBar({ onPlay, isSorting }: Props) {
   return (
     <div className="rounded overflow-hidden shadow-lg bg-gray-800 flex flex-row justify-between p-4 text-white">
-      <select className="bg-gray-200 border border-gray-200 text-gray-700 px-4 pr-8 focus:outline-none focus:bg-white focus:border-gray-500">
+      <select className="bg-gray-200 border border-gray-200 text-gray-700 px-3 focus:outline-none focus:bg-white focus:border-gray-500">
         <option>Bubble</option>
       </select>
 
@@ -22,8 +28,12 @@ function OptionsBar() {
         <button className="p-3">
           <FontAwesomeIcon icon={faBackward} />
         </button>
-        <button className="p-3">
-          <FontAwesomeIcon icon={faPlay} />
+        <button className="p-3" onClick={onPlay}>
+          {isSorting ? (
+            <FontAwesomeIcon icon={faPause} />
+          ) : (
+            <FontAwesomeIcon icon={faPlay} />
+          )}
         </button>
         <button className="p-3">
           <FontAwesomeIcon icon={faForward} />
