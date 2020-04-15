@@ -56,18 +56,29 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center">
-      <div className="w-screen max-w-xl">
-        <Graph ref={barRefs} bars={bars} />
-        <OptionsBar
-          isSorting={isSorting}
-          onPlay={onPlayHandler}
-          onSkip={onSkipHandler}
-          onSpeed={onSpeedHandler}
-          onReset={onResetHandler}
-        />
+    <>
+      <div className="min-h-screen flex flex-col justify-center items-center">
+        <div className="w-screen max-w-xl  px-2">
+          <Graph ref={barRefs} bars={bars} />
+          <OptionsBar
+            isSorting={isSorting}
+            onPlay={onPlayHandler}
+            onSkip={onSkipHandler}
+            onSpeed={onSpeedHandler}
+            onReset={onResetHandler}
+          />
+          <div className="flex justify-center text-xs text-gray-800 font-bold">
+            <a
+              href="https://github.com/bengquist/alg-visualizer"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Source code
+            </a>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
