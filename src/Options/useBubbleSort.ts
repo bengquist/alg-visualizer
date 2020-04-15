@@ -36,7 +36,7 @@ function useBubbleSort(
       const prevEl = inner > 0 && bars[inner - 1];
 
       if (prevEl && inner - 1 < outer) prevEl.style.background = "#47c539";
-      outerEl1.style.background = "blue";
+      outerEl1.style.background = "#5C6778";
 
       setOuterLoopIndex(outer - 1);
       setInnerLoopIndex(0);
@@ -48,8 +48,8 @@ function useBubbleSort(
     const el2Value = Number(barsCopy[inner + 1].innerText);
 
     if (prevEl && inner - 1 < outer) prevEl.style.background = "#47c539";
-    innerEl1.style.background = "orange";
-    innerEl2.style.background = "orange";
+    innerEl1.style.background = "#C84A85";
+    innerEl2.style.background = "#C84A85";
 
     setTimeout(() => {
       if (el1Value > el2Value) {
