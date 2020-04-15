@@ -41,7 +41,7 @@ function Graph({ bars }: Props, barRefs: RefObject<HTMLDivElement[]>) {
   };
 
   return (
-    <div className="relative" ref={graphRef}>
+    <div style={{ height: 250 }} className="relative" ref={graphRef}>
       {renderBars()}
     </div>
   );

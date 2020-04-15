@@ -57,6 +57,7 @@ function App() {
         <OptionsBar
           isSorting={isSorting}
           onPlay={onPlayHandler}
+          onSkip={nextSwap}
           onSpeed={onSpeedHandler}
           onReset={onResetHandler}
         />
