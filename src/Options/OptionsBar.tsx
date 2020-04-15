@@ -10,12 +10,13 @@ import React, { ChangeEvent } from "react";
 
 type Props = {
   onPlay: () => void;
+  onReset: () => void;
   onCount: (e: ChangeEvent<HTMLInputElement>) => void;
   onSpeed: (e: ChangeEvent<HTMLInputElement>) => void;
   isSorting?: boolean;
 };
 
-function OptionsBar({ onPlay, onCount, onSpeed, isSorting }: Props) {
+function OptionsBar({ onPlay, onReset, onCount, onSpeed, isSorting }: Props) {
   return (
     <div className="rounded overflow-hidden shadow-lg bg-gray-800 flex flex-row justify-between p-4 text-white">
       <select className="bg-gray-200 border border-gray-200 text-gray-700 px-3 focus:outline-none focus:bg-white focus:border-gray-500">
@@ -23,7 +24,7 @@ function OptionsBar({ onPlay, onCount, onSpeed, isSorting }: Props) {
       </select>
 
       <div className="flex">
-        <button className="p-3">
+        <button className="p-3" onClick={onReset}>
           <FontAwesomeIcon icon={faUndo} />
         </button>
         <button className="p-3">

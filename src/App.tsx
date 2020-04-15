@@ -10,10 +10,12 @@ function App() {
   const [isSorting, setIsSorting] = useState(false);
   const [barCount, setBarCount] = useState(10);
   const [sortSpeed, setSortSpeed] = useState(1000);
-
   const [bars, setBars] = useState(
     shuffle(Array.from({ length: barCount }, (_, index) => ++index))
   );
+  const { nextSwap } = useBubbleSort(barRefs.current, sortSpeed, barCount);
+
+  useInterval(() => isSorting && nextSwap(), sortSpeed);
 
   useEffect(() => {
     const shuffledBars = shuffle(
@@ -22,9 +24,17 @@ function App() {
     setBars(shuffledBars);
   }, [barCount]);
 
-  const { nextSwap } = useBubbleSort(barRefs.current, sortSpeed, barCount);
+  const onResetHandler = () => {
+    console.log("ay");
+  };
 
-  useInterval(() => isSorting && nextSwap(), sortSpeed);
+  const onCountHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setBarCount(Number(e.target.value) * 10);
+  };
+
+  const onSpeedHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setSortSpeed(1000 / Number(e.target.value));
+  };
 
   return (
     <div className="min-h-screen flex justify-center items-center">
@@ -33,12 +43,9 @@ function App() {
         <OptionsBar
           isSorting={isSorting}
           onPlay={() => setIsSorting(!isSorting)}
-          onCount={(e: ChangeEvent<HTMLInputElement>) =>
-            setBarCount(Number(e.target.value) * 10)
-          }
-          onSpeed={(e: ChangeEvent<HTMLInputElement>) =>
-            setSortSpeed(1000 / Number(e.target.value))
-          }
+          onCount={onCountHandler}
+          onSpeed={onSpeedHandler}
+          onReset={onResetHandler}
         />
       </div>
     </div>
