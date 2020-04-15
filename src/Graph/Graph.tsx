@@ -34,7 +34,9 @@ function Graph({ bars }: Props, barRefs: RefObject<HTMLDivElement[]>) {
             transform: `matrix(1, 0, 0, 1, ${index * barWidth}, 0)`,
           }}
         >
-          <div className="flex center justify-center text-white">{val}</div>
+          <div className="flex center justify-center text-white font-bold">
+            {val}
+          </div>
         </Container>
       );
     });
