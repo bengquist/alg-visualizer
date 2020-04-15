@@ -22,18 +22,20 @@ function Graph({ bars }: Props, barRefs: RefObject<HTMLDivElement[]>) {
   }, [bars.length]);
 
   const renderBars = () => {
-    return bars.map((val, index) => (
-      <Container
-        key={val}
-        ref={(ref: HTMLDivElement) =>
-          barRefs.current && (barRefs.current[index] = ref)
-        }
-        style={{ width: barWidth, height: val * 25 }}
-        place={index * barWidth}
-      >
-        <div className="flex center justify-center text-white">{val}</div>
-      </Container>
-    ));
+    return bars.map((val, index) => {
+      return (
+        <Container
+          key={val}
+          ref={(ref: HTMLDivElement) =>
+            barRefs.current && (barRefs.current[index] = ref)
+          }
+          style={{ width: barWidth, height: val * 25 }}
+          place={index * barWidth}
+        >
+          <div className="flex center justify-center text-white">{val}</div>
+        </Container>
+      );
+    });
   };
 
   return (

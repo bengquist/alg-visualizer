@@ -4,7 +4,6 @@ import {
   faPause,
   faPlay,
   faUndo,
-  faVolumeMute,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ChangeEvent } from "react";
@@ -39,9 +38,6 @@ function OptionsBar({ onPlay, onCount, onSpeed, isSorting }: Props) {
         </button>
         <button className="p-3">
           <FontAwesomeIcon icon={faForward} />
-        </button>
-        <button className="p-3">
-          <FontAwesomeIcon icon={faVolumeMute} />
         </button>
       </div>
 
