@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 function useBubbleSort(
   barRefs: HTMLDivElement[],
   sortSpeed: number,
-  barCount: number
+  barCount: number,
+  onStop: () => void
 ) {
   const [outerLoopIndex, setOuterLoopIndex] = useState(barCount - 1);
   const [innerLoopIndex, setInnerLoopIndex] = useState(0);
@@ -22,13 +23,20 @@ function useBubbleSort(
     let barsCopy = Array.from(bars);
 
     if (outer < inner) {
+      onStop();
       return;
     }
 
-    if (!barsCopy[inner + 1] || inner >= outer) {
-      const el1 = barsCopy[outer];
+    const prevEl = inner > 0 && bars[inner - 1];
+    const innerEl1 = bars[inner];
+    const innerEl2 = bars[inner + 1];
+    const outerEl1 = barsCopy[outer];
 
-      el1.style.background = "blue";
+    if (!barsCopy[inner + 1] || inner >= outer) {
+      const prevEl = inner > 0 && bars[inner - 1];
+
+      if (prevEl && inner - 1 < outer) prevEl.style.background = "#47c539";
+      outerEl1.style.background = "blue";
 
       setOuterLoopIndex(outer - 1);
       setInnerLoopIndex(0);
@@ -36,20 +44,17 @@ function useBubbleSort(
       return;
     }
 
-    const prevEl = inner > 0 && bars[inner - 1];
-    const el1 = bars[inner];
-    const el2 = bars[inner + 1];
     const el1Value = Number(barsCopy[inner].innerText);
     const el2Value = Number(barsCopy[inner + 1].innerText);
 
     if (prevEl && inner - 1 < outer) prevEl.style.background = "#47c539";
-    el1.style.background = "orange";
-    el2.style.background = "orange";
+    innerEl1.style.background = "orange";
+    innerEl2.style.background = "orange";
 
     setTimeout(() => {
       if (el1Value > el2Value) {
-        const style1 = window.getComputedStyle(el1);
-        const style2 = window.getComputedStyle(el2);
+        const style1 = window.getComputedStyle(innerEl1);
+        const style2 = window.getComputedStyle(innerEl2);
 
         const transform1 = style1.getPropertyValue("transform");
         const transform2 = style2.getPropertyValue("transform");
@@ -59,8 +64,8 @@ function useBubbleSort(
           barsCopy[inner],
         ];
 
-        el1.style.transform = transform2;
-        el2.style.transform = transform1;
+        innerEl1.style.transform = transform2;
+        innerEl2.style.transform = transform1;
       }
 
       setBarRefsCopy(barsCopy);
