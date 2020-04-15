@@ -26,7 +26,7 @@ function Graph({ bars }: Props, barRefs: RefObject<HTMLDivElement[]>) {
       return (
         <Container
           ref={(ref: HTMLDivElement) =>
-            barRefs.current && (barRefs.current[index] = ref)
+            barRefs?.current && (barRefs.current[index] = ref)
           }
           style={{
             width: barWidth,
@@ -46,7 +46,6 @@ function Graph({ bars }: Props, barRefs: RefObject<HTMLDivElement[]>) {
     </div>
   );
 }
-
 //@ts-ignore
 export default forwardRef(Graph);
 

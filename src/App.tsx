@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useRef, useState } from "react";
+import { shuffle } from "./common/arrayHelpers";
 import useInterval from "./common/useInterval";
 import Graph from "./Graph/Graph";
-import { shuffle } from "./helpers";
 import OptionsBar from "./Options/OptionsBar";
 import useBubbleSort from "./Options/useBubbleSort";
 

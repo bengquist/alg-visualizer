@@ -1,18 +1,15 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { swap } from "../common/arrayHelpers";
 
 function useBubbleSort(
   barRefs: HTMLDivElement[],
   sortSpeed: number,
   barCount: number,
-  onStop: () => void
+  onStop?: () => void
 ) {
   const [outerLoopIndex, setOuterLoopIndex] = useState(barCount - 1);
   const [innerLoopIndex, setInnerLoopIndex] = useState(0);
   const [barRefsCopy, setBarRefsCopy] = useState<HTMLDivElement[]>(barRefs);
-
-  useEffect(() => {
-    setOuterLoopIndex(barCount - 1);
-  }, [barCount]);
 
   const reset = () => {
     setOuterLoopIndex(barCount - 1);
@@ -23,7 +20,7 @@ function useBubbleSort(
     let barsCopy = Array.from(bars);
 
     if (outer < inner) {
-      onStop();
+      if (onStop) onStop();
       return;
     }
 
@@ -59,10 +56,7 @@ function useBubbleSort(
         const transform1 = style1.getPropertyValue("transform");
         const transform2 = style2.getPropertyValue("transform");
 
-        [barsCopy[inner], barsCopy[inner + 1]] = [
-          barsCopy[inner + 1],
-          barsCopy[inner],
-        ];
+        swap(barsCopy, inner, inner + 1);
 
         innerEl1.style.transform = transform2;
         innerEl2.style.transform = transform1;

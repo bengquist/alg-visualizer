@@ -7,7 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ChangeEvent } from "react";
-import styled from "styled-components";
+import { Slider } from "./styles";
 
 type Props = {
   onPlay: () => void;
@@ -57,27 +57,3 @@ function OptionsBar({ onPlay, onReset, onSpeed, isSorting }: Props) {
 }
 
 export default OptionsBar;
-
-const Slider = styled.input`
-  appearance: none;
-  cursor: pointer;
-
-  :focus {
-    outline: none;
-  }
-  ::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 5px;
-    background: #47c539;
-    border-radius: 5px;
-  }
-  ::-webkit-slider-thumb {
-    border: 2px solid #47c539;
-    height: 20px;
-    width: 20px;
-    border-radius: 50%;
-    background: #ffffff;
-    -webkit-appearance: none;
-    margin-top: -8px;
-  }
-`;
