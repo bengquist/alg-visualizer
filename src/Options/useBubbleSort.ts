@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function useBubbleSort(
   barRefs: HTMLDivElement[],
@@ -8,6 +8,10 @@ function useBubbleSort(
   const [outerLoopIndex, setOuterLoopIndex] = useState(barCount - 1);
   const [innerLoopIndex, setInnerLoopIndex] = useState(0);
   const [barRefsCopy, setBarRefsCopy] = useState<HTMLDivElement[]>(barRefs);
+
+  useEffect(() => {
+    setOuterLoopIndex(barCount - 1);
+  }, [barCount]);
 
   const nextSwap = (inner: number, outer: number, bars: HTMLDivElement[]) => {
     let barsCopy = Array.from(bars);

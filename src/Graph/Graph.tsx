@@ -21,6 +21,8 @@ function Graph({ bars }: Props, barRefs: RefObject<HTMLDivElement[]>) {
     }
   }, [bars.length]);
 
+  console.log(barRefs);
+
   const renderBars = () => {
     return bars.map((val, index) => {
       return (
