@@ -25,12 +25,14 @@ function Graph({ bars }: Props, barRefs: RefObject<HTMLDivElement[]>) {
     return bars.map((val, index) => {
       return (
         <Container
-          key={val}
           ref={(ref: HTMLDivElement) =>
             barRefs.current && (barRefs.current[index] = ref)
           }
-          style={{ width: barWidth, height: val * 25 }}
-          place={index * barWidth}
+          style={{
+            width: barWidth,
+            height: val * 25,
+            transform: `matrix(1, 0, 0, 1, ${index * barWidth}, 0)`,
+          }}
         >
           <div className="flex center justify-center text-white">{val}</div>
         </Container>
@@ -48,13 +50,11 @@ function Graph({ bars }: Props, barRefs: RefObject<HTMLDivElement[]>) {
 //@ts-ignore
 export default forwardRef(Graph);
 
-const Container = styled.div<{ place: number }>`
+const Container = styled.div`
   position: absolute;
   background: #47c539;
   border-radius: 5px 5px 0 0;
   border: 1px solid white;
   bottom: 0;
-
   transition: 0.2s;
-  transform: matrix(1, 0, 0, 1, ${({ place }) => place}, 0);
 `;

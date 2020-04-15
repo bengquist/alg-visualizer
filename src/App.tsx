@@ -19,6 +19,23 @@ function App() {
     barCount
   );
 
+  useEffect(() => {
+    let newBarRefs = Array.from(barRefs.current);
+
+    bars.forEach((bar, barIndex) => {
+      const refIndex = barRefs.current.findIndex(
+        (node) => Number(node.innerText) === bar
+      );
+
+      const temp = newBarRefs[barIndex];
+      newBarRefs[barIndex] = newBarRefs[refIndex];
+      newBarRefs[refIndex] = temp;
+    });
+
+    console.log(bars, newBarRefs);
+    barRefs.current = newBarRefs;
+  }, [bars]);
+
   useInterval(() => isSorting && nextSwap(), sortSpeed);
 
   useEffect(() => {
