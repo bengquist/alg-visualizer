@@ -50,6 +50,11 @@ function App() {
     setIsSorting(!isSorting);
   };
 
+  const onSkipHandler = () => {
+    setIsSorting(false);
+    nextSwap();
+  };
+
   return (
     <div className="min-h-screen flex justify-center items-center">
       <div className="w-screen max-w-xl">
@@ -57,7 +62,7 @@ function App() {
         <OptionsBar
           isSorting={isSorting}
           onPlay={onPlayHandler}
-          onSkip={nextSwap}
+          onSkip={onSkipHandler}
           onSpeed={onSpeedHandler}
           onReset={onResetHandler}
         />

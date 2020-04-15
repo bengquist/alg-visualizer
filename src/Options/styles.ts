@@ -5,9 +5,6 @@ export const Slider = styled.input`
   cursor: pointer;
   background: #5c6778;
 
-  :focus {
-    outline: none;
-  }
   ::-webkit-slider-runnable-track {
     width: 100%;
     height: 5px;
@@ -21,5 +18,8 @@ export const Slider = styled.input`
     background: #efefef;
     -webkit-appearance: none;
     margin-top: -8px;
+  }
+  :focus {
+    outline: none;
   }
 `;
