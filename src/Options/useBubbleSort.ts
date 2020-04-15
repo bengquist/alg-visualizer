@@ -12,13 +12,13 @@ function useBubbleSort(
   const nextSwap = (inner: number, outer: number, bars: HTMLDivElement[]) => {
     let barsCopy = Array.from(bars);
 
-    console.log(outer);
+    if (outer < inner) {
+      return;
+    }
 
-    if (!barsCopy[inner + 1]) {
-      const prevEl = inner <= outer && barsCopy[outer + 1];
+    if (!barsCopy[inner + 1] || inner >= outer) {
       const el1 = barsCopy[outer];
 
-      if (prevEl) prevEl.style.background = "blue";
       el1.style.background = "blue";
 
       setOuterLoopIndex(outer - 1);
