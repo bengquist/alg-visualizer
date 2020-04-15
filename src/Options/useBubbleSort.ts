@@ -7,21 +7,23 @@ function useBubbleSort(
 ) {
   const [outerLoopIndex, setOuterLoopIndex] = useState(barCount - 1);
   const [innerLoopIndex, setInnerLoopIndex] = useState(0);
-  const [barRefsCopy, setBarRefsCopy] = useState<HTMLDivElement[]>(barRefs);
 
   useEffect(() => {
     setOuterLoopIndex(barCount - 1);
   }, [barCount]);
 
-  const nextSwap = (inner: number, outer: number, bars: HTMLDivElement[]) => {
-    let barsCopy = Array.from(bars);
+  const reset = () => {
+    setOuterLoopIndex(barCount - 1);
+    setInnerLoopIndex(0);
+  };
 
+  const nextSwap = (inner: number, outer: number) => {
     if (outer < inner) {
       return;
     }
 
-    if (!barsCopy[inner + 1] || inner >= outer) {
-      const el1 = barsCopy[outer];
+    if (!barRefs[inner + 1] || inner >= outer) {
+      const el1 = barRefs[outer];
 
       el1.style.background = "blue";
 
@@ -31,11 +33,11 @@ function useBubbleSort(
       return;
     }
 
-    const prevEl = inner > 0 && bars[inner - 1];
-    const el1 = bars[inner];
-    const el2 = bars[inner + 1];
-    const el1Value = Number(barsCopy[inner].innerText);
-    const el2Value = Number(barsCopy[inner + 1].innerText);
+    const prevEl = inner > 0 && barRefs[inner - 1];
+    const el1 = barRefs[inner];
+    const el2 = barRefs[inner + 1];
+    const el1Value = Number(barRefs[inner].innerText);
+    const el2Value = Number(barRefs[inner + 1].innerText);
 
     if (prevEl && inner - 1 < outer) prevEl.style.background = "#47c539";
     el1.style.background = "orange";
@@ -49,22 +51,22 @@ function useBubbleSort(
         const transform1 = style1.getPropertyValue("transform");
         const transform2 = style2.getPropertyValue("transform");
 
-        [barsCopy[inner], barsCopy[inner + 1]] = [
-          barsCopy[inner + 1],
-          barsCopy[inner],
+        [barRefs[inner], barRefs[inner + 1]] = [
+          barRefs[inner + 1],
+          barRefs[inner],
         ];
 
         el1.style.transform = transform2;
         el2.style.transform = transform1;
       }
 
-      setBarRefsCopy(barsCopy);
       setInnerLoopIndex(inner + 1);
     }, sortSpeed / 2);
   };
 
   return {
-    nextSwap: () => nextSwap(innerLoopIndex, outerLoopIndex, barRefsCopy),
+    reset,
+    nextSwap: () => nextSwap(innerLoopIndex, outerLoopIndex),
   };
 }
 

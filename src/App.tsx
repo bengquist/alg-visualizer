@@ -13,7 +13,11 @@ function App() {
   const [bars, setBars] = useState(
     shuffle(Array.from({ length: barCount }, (_, index) => ++index))
   );
-  const { nextSwap } = useBubbleSort(barRefs.current, sortSpeed, barCount);
+  const { nextSwap, reset } = useBubbleSort(
+    barRefs.current,
+    sortSpeed,
+    barCount
+  );
 
   useInterval(() => isSorting && nextSwap(), sortSpeed);
 
@@ -25,7 +29,9 @@ function App() {
   }, [barCount]);
 
   const onResetHandler = () => {
-    console.log("ay");
+    const newArr = shuffle(Array.from(bars));
+    setBars(newArr);
+    reset();
   };
 
   const onCountHandler = (e: ChangeEvent<HTMLInputElement>) => {
